@@ -245,6 +245,7 @@ export interface CommonWrapper<P = {}, S = {}, C = Component<P, S>> {
     /**
      * Simulate events.
      * Returns itself.
+     * @param event
      * @param args?
      */
     simulate(event: string, ...args: any[]): this;
@@ -391,6 +392,13 @@ export interface CommonWrapper<P = {}, S = {}, C = Component<P, S>> {
      */
     type(): string | ComponentClass<P> | StatelessComponent<P>;
 
+    /**
+     * Returns a wrapper of the node rendered by the provided render prop.
+     */
+    renderProp<PropName extends keyof P>(
+        prop: PropName,
+    ): (...params: Parameters<P[PropName]>) => this;
+
     length: number;
 }
 
@@ -486,13 +494,6 @@ export class ShallowWrapper<P = {}, S = {}, C = Component> {
      * Returns a wrapper with the direct parent of the node in the current wrapper.
      */
     parent(): ShallowWrapper<any, any>;
-
-    /**
-     * Returns a wrapper of the node rendered by the provided render prop.
-     */
-    renderProp<PropName extends keyof P>(
-        prop: PropName,
-    ): (...params: Parameters<P[PropName]>) => ShallowWrapper<any, never>;
 
     /**
      * If a wrappingComponent was passed in options,

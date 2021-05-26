@@ -979,6 +979,11 @@ function ReactWrapperTest() {
       wrapper2.find<MyComponentProps>(ComponentType).props().stringProp; // $ExpectType string
     }
 
+    function test_renderProp() {
+        let reactWrapper = new ReactWrapper<MyRenderPropProps>(<MyRenderPropComponent children={(params) => <div className={params} />} />);
+        reactWrapper = reactWrapper.renderProp('children')('test');
+    }
+
     function test_getWrappingComponent() {
         const MyContext = React.createContext('test');
         function MyProvider(props: MyProviderProps) {
